@@ -1,0 +1,22 @@
+services:
+  documind:
+    build: .
+    image: documind-ai:latest
+    ports:
+      - "8000:8000"
+    environment:
+      # Required: the server refuses to start in production with the default secret.
+      # Generate one with: python -c "import secrets; print(secrets.token_urlsafe(48))"
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in your .env file}
+      APP_ENV: ${APP_ENV:-production}
+      # Optional: leave empty to run in demo mode (retrieval only, no generated answers).
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-claude-sonnet-5-5}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8000}
+    volumes:
+      # Database, uploads, vector index and the downloaded embedding model survive restarts.
+      - documind-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  documind-data:

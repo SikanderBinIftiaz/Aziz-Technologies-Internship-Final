@@ -1,0 +1,14 @@
+.git
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+data/documind.db
+data/uploads/
+data/chroma/
+evaluation/reports/
+tests/
+docs/
+*.md
